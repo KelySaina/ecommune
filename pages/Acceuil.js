@@ -1,21 +1,14 @@
-
-import { Image, TouchableOpacity, View, StyleSheet } from "react-native"
+import { View } from "react-native"
+import { Text } from "@react-native-material/core"
 
 const Acceuil = () => {
     return (
-        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-
+        <View>
+            <Text>Acceuil</Text>
         </View>
     )
 
 }
 
-
-const styles = StyleSheet.create({
-    touchable:
-    {
-
-    }
-});
 
 export default Acceuil
