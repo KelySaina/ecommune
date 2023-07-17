@@ -1,4 +1,5 @@
-
+import { View } from "react-native"
+import { Text } from "@react-native-material/core"
 
 const Acceuil = () => {
     return (
@@ -9,12 +10,5 @@ const Acceuil = () => {
 
 }
 
-
-const styles = StyleSheet.create({
-    touchable:
-    {
-
-    }
-});
 
 export default Acceuil
