@@ -1,14 +1,20 @@
-import { Text } from "@react-native-material/core"
-import { View } from "react-native"
+
 
 const Acceuil = () => {
     return (
-        <>
-            <View >
-                <Text >Acceuil</Text>
-            </View>
-        </>
+        <View>
+            <Text>Acceuil</Text>
+        </View>
     )
+
 }
+
+
+const styles = StyleSheet.create({
+    touchable:
+    {
+
+    }
+});
 
 export default Acceuil
