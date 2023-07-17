@@ -12,7 +12,7 @@ const LsitProjet = () => {
                 <Image source={require("../assets/icon.png")} style={styles.image} />
             </TouchableOpacity>
         </>
-    )
+    ) 
 }
 
 const styles = StyleSheet.create({
