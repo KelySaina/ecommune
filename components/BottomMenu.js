@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function BottomMenu({navigation}) {
+export default function BottomMenu({navigation, refresh}) {
     const [activeButton, setActiveButton] = useState('home');
     const [isActive, setIsActive] = useState(false);
     const handleDetailPress = (buttonName) => {
@@ -15,6 +15,7 @@ export default function BottomMenu({navigation}) {
         setIsActive(true);
         setActiveButton(buttonName);
         navigation.navigate("Acceuil")
+        refresh
     }
     const handleLogoutPress = (buttonName) => {
         setIsActive(true);
@@ -30,7 +31,7 @@ export default function BottomMenu({navigation}) {
                         icon={<Icon name="format-list-bulleted" style={[styles.icon, activeButton === 'dots-vertical' && styles.activeButton]} />}
                         onPress={() => handleDetailPress('dots-vertical')}
                     />
-                    <Text style={[styles.legend, activeButton === 'dots-vertical' && { color: '#49c322' }]}>Details</Text>
+                    <Text style={[styles.legend, activeButton === 'dots-vertical' && { color: '#49c322' }]}>Tous les projets</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton
