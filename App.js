@@ -14,7 +14,9 @@ const App = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Login" screenOptions={{
+          headerShown: false, // Hide the header for all screens
+        }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Acceuil" component={Acceuil} />
         </Stack.Navigator>
