@@ -6,16 +6,16 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 
 
-const Acceuil = ({navigation}) => {
+const Acceuil = ({ navigation }) => {
 
     const [projetsData, setProjetsData] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         getPro()
-    },[])
+    }, [])
 
-    const getPro = async () =>{
-        const response = await axios.get(`http://192.168.43.42:5555/proData`)
+    const getPro = async () => {
+        const response = await axios.get(`http://192.168.43.224:5555/proData`)
         const data = response.data
         setProjetsData(data)
 
@@ -23,19 +23,19 @@ const Acceuil = ({navigation}) => {
 
     return (
         <>
-        
-        <View style={{height:'90%'}}>
-            {
-                projetsData.map((p,index)=>(
-                    <ListProjet key={index} refresh={getPro} titre={p.titre} stat={p.stat} />
-                ))
-            }
-            
-            
-        </View>
 
-        <BottomMenu navigation={navigation} />
-        
+            <View style={{ height: '90%' }}>
+                {
+                    projetsData.map((p, index) => (
+                        <ListProjet key={index} refresh={getPro} titre={p.titre} stat={p.stat} />
+                    ))
+                }
+
+
+            </View>
+
+            <BottomMenu navigation={navigation} />
+
         </>
     )
 

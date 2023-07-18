@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, StyleSheet, Text, Animated, Image, A
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -12,30 +12,30 @@ const Login = ({navigation}) => {
 
   function toFormData(obj) {
     const formData = new FormData();
-  
+
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         formData.append(key, obj[key]);
       }
     }
-  
+
     return formData;
   }
-  
+
   const handleLogin = async () => {
     // Implémentez votre logique de connexion ici
-  
-    const response = await axios.post('http://192.168.43.42:5555/signin', {
-      nom:email,
+
+    const response = await axios.post('http://192.168.43.224:5555/signin', {
+      nom: email,
       mdp: password,
     });
     const data = response.data;
-    if(data === "success"){
+    if (data === "success") {
       navigation.navigate("Acceuil")
-    }else{
+    } else {
       Alert.alert("Info", "Erreur d'authentification")
     }
-    
+
   };
 
   const handleEmailChange = (text) => {
@@ -69,10 +69,12 @@ const Login = ({navigation}) => {
         style={[
           styles.placeholder,
           {
-            transform: [{ translateY: emailAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [22, 0],
-            }) }],
+            transform: [{
+              translateY: emailAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [22, 0],
+              })
+            }],
             color: email !== '' ? '#2196F3' : '#666',
           },
         ]}
@@ -91,10 +93,12 @@ const Login = ({navigation}) => {
         style={[
           styles.placeholder,
           {
-            transform: [{ translateY: passwordAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [22, 0],
-            }) }],
+            transform: [{
+              translateY: passwordAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [22, 0],
+              })
+            }],
             color: password !== '' ? '#2196F3' : '#666',
           },
         ]}
