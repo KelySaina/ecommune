@@ -1,5 +1,5 @@
 import { ListItem } from '@react-native-material/core';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated, Alert } from 'react-native';
 import Modal from 'react-native-modal'
 import Icon from 'react-native-vector-icons/FontAwesome'
