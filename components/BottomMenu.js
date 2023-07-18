@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function BottomMenu() {
+export default function BottomMenu({navigation, refresh}) {
     const [activeButton, setActiveButton] = useState('home');
     const [isActive, setIsActive] = useState(false);
     const handleDetailPress = (buttonName) => {
@@ -14,24 +14,24 @@ export default function BottomMenu() {
     const handleHomePress = (buttonName) => {
         setIsActive(true);
         setActiveButton(buttonName);
+        navigation.navigate("Acceuil")
+        refresh
     }
     const handleLogoutPress = (buttonName) => {
         setIsActive(true);
         setActiveButton(buttonName);
+        navigation.navigate("Login")
     }
 
     return (
         <>
-            <View>
-                <ScrollView style={{ height: 495 }}></ScrollView>
-            </View>
             <View style={styles.menu}>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton
                         icon={<Icon name="format-list-bulleted" style={[styles.icon, activeButton === 'dots-vertical' && styles.activeButton]} />}
                         onPress={() => handleDetailPress('dots-vertical')}
                     />
-                    <Text style={[styles.legend, activeButton === 'dots-vertical' && { color: '#49c322' }]}>Details</Text>
+                    <Text style={[styles.legend, activeButton === 'dots-vertical' && { color: '#49c322' }]}>Tous les projets</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton
@@ -41,7 +41,7 @@ export default function BottomMenu() {
                     <Text style={[styles.legend, activeButton === 'home' && { color: '#49c322' }]}>Home</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <IconButton
+                    <IconButton 
                         icon={<Icon name="logout" style={[styles.icon, activeButton === 'account' && styles.activeButton]} />}
                         onPress={() => handleLogoutPress('account')}
                     />

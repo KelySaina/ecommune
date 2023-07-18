@@ -15,10 +15,11 @@ const App = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Card">
+        <Stack.Navigator initialRouteName="Login" screenOptions={{
+          headerShown: false, // Hide the header for all screens
+        }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Acceuil" component={Acceuil} />
-          <Stack.Screen name="Card" component={Card} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

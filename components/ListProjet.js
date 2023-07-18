@@ -1,15 +1,20 @@
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
 import { Text } from "@react-native-material/core"
+import { useEffect } from "react"
 
-const LsitProjet = ({ nomList, stat, image }) => {
+const LsitProjet = ({ titre, stat, refresh }) => {
+
+    useEffect(() => {
+        refresh()
+    }, [])
+
     return (
         <>
             <TouchableOpacity style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{nomList}</Text>
+                    <Text style={styles.title}>{titre}</Text>
                     <Text style={styles.statistic}>{stat}</Text>
                 </View>
-                <Image source={require(image)} style={styles.image} />
             </TouchableOpacity>
         </>
     )
