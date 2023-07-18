@@ -16,7 +16,7 @@ const Acceuil = ({ navigation }) => {
     }, [])
 
     const getPro = async () => {
-        const response = await axios.get(`http://192.168.43.224:5555/proData`)
+        const response = await axios.get(`http://192.168.1.198:5555/proData`)
         const data = response.data
         setProjetsData(data)
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import ImageCropPicker from 'react-native-image-crop-picker'; // Import the ImageCropPicker library
 import BottomMenu from "../components/BottomMenu";
 import ProjectCard from "../components/ProjectCard";
 import axios from "axios";
@@ -13,23 +14,13 @@ const AllProjects = ({ navigation, route }) => {
   const [nb, setNb] = useState('');
   const [openAjoutModal, setOpenAjoutModal] = useState(false);
 
-  const [errorVisible, setErrorVisible] = useState(false);
-
-
   // États pour stocker les valeurs des champs de texte et de date
   const [nomProjet, setNomProjet] = useState('');
   const [responsable, setResponsable] = useState('');
   const [dateDebut, setDateDebut] = useState(null);
-  const [budget, setbudget] = useState('');
+  const [dateFin, setDateFin] = useState(null);
+  const [imagePath, setImagePath] = useState('');
 
-  const handleBugdet = (text) => {
-    // Supprimer les caractères non numériques et mettre à jour l'état
-    const cleanedValue = text.replace(/[^0-9]/g, '');
-    setbudget(cleanedValue);
-  };
-
-  // États pour gérer l'affichage du sélecteur de date
-  const [showDateDebutPicker, setShowDateDebutPicker] = useState(false);
   useEffect(() => {
     getAllPro();
     getNbPro();
@@ -48,20 +39,11 @@ const AllProjects = ({ navigation, route }) => {
   };
 
   // Méthode pour ajouter le projet
-  const addProjet = async () => {
-    // Implémentez votre logique de connexion ici
-    if (nomProjet == '' || responsable == '' || dateDebut == null) {
-      setErrorVisible(true);
-    } else {
-      setErrorVisible(false);
-      const response = await axios.post('http://192.168.1.198:5555/addProj', {
-        nom: nomProjet,
-        resp: responsable,
-        dateDeb: dateDebut.toISOString().split('T')[0],
-        budg:budget,
-      });
-      closeModal();
-    }
+  const addProjet = () => {
+    // Ici, vous pouvez implémenter la logique pour ajouter le projet à votre backend
+    // Vous pouvez utiliser les valeurs des états nomProjet, responsable, dateDebut, dateFin, et imagePath
+    // Une fois que le projet est ajouté, vous pouvez fermer la modal et rafraîchir la liste des projets
+    closeModal();
   };
 
   const closeModal = () => {
@@ -70,38 +52,27 @@ const AllProjects = ({ navigation, route }) => {
     setNomProjet('');
     setResponsable('');
     setDateDebut(null);
-    setbudget(null);
-    // Réinitialiser l'affichage du sélecteur de date
-    setShowDateDebutPicker(false);
+    setDateFin(null);
+    setImagePath('');
   };
 
+  const openImagePicker = () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'photo',
+      width: 200,
+      height: 200,
+      cropping: true,
+      cropperCircleOverlay: true,
+      compressImageQuality: 0.7
+    }).then(image => {
+      // Handle the selected image here
+      console.log("Image selected: ", image.path);
+      setImagePath(image.path); // Set the selected image path to the state
+    }).catch(error => {
+      console.log("Error selecting image: ", error);
+    });
+  };
 
-  const styles = StyleSheet.create({
-    input: {
-      width: '100%',
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-      borderRadius: 5,
-      paddingHorizontal: 10,
-      justifyContent: 'center',
-      marginBottom: 10,
-    },
-    inputText: {
-      fontSize: 16,
-    },
-    button: {
-      backgroundColor: 'blue',
-      padding: 10,
-      borderRadius: 5,
-      alignItems: 'center',
-      marginTop: 20,
-    },
-    buttonText: {
-      color: 'white',
-      fontSize: 18,
-    },
-  });
   return (
     <>
       <AppBar
@@ -139,57 +110,54 @@ const AllProjects = ({ navigation, route }) => {
       <Modal isVisible={openAjoutModal}>
         <View style={{ backgroundColor: 'white', padding: 16 }}>
           <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
-            <Text style={{ fontSize: 18, fontWeight:'bold' }}>Ajouter un projet</Text>
+            <Text style={{ fontSize: 18 }}>Ajouter un projet</Text>
 
             <Icon name='times' size={30} onPress={closeModal} />
           </View>
-          <View  style={{ paddingTop: 16 }}>
+          <View>
             {/* Zone "Plan" */}
-            <Text style={{fontWeight:"bold"}}>Nom du projet</Text>
             <TextInput
               style={styles.input}
-              placeholder="ex: Construction de route..."
+              placeholder="Nom du projet"
               value={nomProjet}
               onChangeText={text => setNomProjet(text)}
             />
-            <Text style={{fontWeight:"bold"}}>Responsable</Text>
             <TextInput
               style={styles.input}
-              placeholder="ex: Le Maire..."
+              placeholder="Responsable"
               value={responsable}
               onChangeText={text => setResponsable(text)}
             />
-            <Text style={{fontWeight:"bold"}}>Budget en Ariary</Text>
-            <View style={styles.container}>
-              <TextInput
-                style={styles.input}
-                value={budget}
-                onChangeText={handleBugdet}
-                keyboardType="numeric"
-              />
-            </View>
-            <Text style={{fontWeight:"bold"}}>Date de début du projet</Text>
-            <TouchableOpacity onPress={() => setShowDateDebutPicker(true)}>
+            <TouchableOpacity onPress={() => setDateDebut(new Date())}>
               <View style={styles.input}>
                 <TextInput
                   style={styles.inputText}
+                  placeholder="Date de début du projet"
                   value={dateDebut ? dateDebut.toISOString().slice(0, 10) : ''}
                   editable={false} // Pour empêcher la saisie manuelle
                 />
               </View>
             </TouchableOpacity>
-            {showDateDebutPicker && (
-              <DateTimePicker
-                value={dateDebut || new Date()}
-                mode="date"
-                display="default"
-                onChange={(event, selectedDate) => {
-                  setShowDateDebutPicker(false);
-                  setDateDebut(selectedDate);
-                }}
-              />
-            )}
-            {errorVisible && <Text style={{color: 'red', fontWeight: 'bold'}}>Veuillez saisir les champs vides.</Text>}
+            <TouchableOpacity onPress={() => setDateFin(new Date())}>
+              <View style={styles.input}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Date de fin du projet"
+                  value={dateFin ? dateFin.toISOString().slice(0, 10) : ''}
+                  editable={false} // Pour empêcher la saisie manuelle
+                />
+              </View>
+            </TouchableOpacity>
+            <Text>Image du projet</Text>
+            {imagePath ? (
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: imagePath }} style={styles.image} />
+              </View>
+            ) : null}
+            <TouchableOpacity onPress={openImagePicker} style={styles.button}>
+              <Text style={styles.buttonText}>Ajouter une image</Text>
+            </TouchableOpacity>
+            {/* Bouton pour ajouter le projet */}
             <TouchableOpacity onPress={addProjet} style={styles.button}>
               <Text style={styles.buttonText}>Ajouter le projet</Text>
             </TouchableOpacity>
@@ -202,5 +170,41 @@ const AllProjects = ({ navigation, route }) => {
   )
 }
 
+const styles = StyleSheet.create({
+  input: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  inputText: {
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+});
 
 export default AllProjects;
