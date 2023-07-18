@@ -57,9 +57,9 @@ const ProjectCard = ({ id, titre, stat, resp, bud, navigation }) => {
 
               <Icon name='circle' color={stat === "Suspendu" ? 'red' : stat === "Termine" ? 'green' : 'blue'} />
 
-              <Text style={[styles.id, { color: titleColor }]}>{id}</Text>
+              <Text style={[styles.id, { color: titleColor, width: '30%' }]}>{id}</Text>
 
-              <Text style={[styles.title, { color: titleColor, width: '75%' }]}>{titre}</Text>
+              <Text style={[styles.title, { color: titleColor, width: '60%' }]}>{titre}</Text>
             </View>
             {isExpanded && (
               <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 75
+    height: 85
   },
   image: {
     width: 80,
