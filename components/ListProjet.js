@@ -1,7 +1,12 @@
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
 import { Text } from "@react-native-material/core"
+import { useEffect } from "react"
 
-const LsitProjet = ({titre, stat}) => {
+const LsitProjet = ({ titre, stat, refresh }) => {
+
+    useEffect(() => {
+        refresh()
+    }, [])
 
     return (
         <>
@@ -13,7 +18,7 @@ const LsitProjet = ({titre, stat}) => {
                 <Image source={require("../assets/icon.png")} style={styles.image} />
             </TouchableOpacity>
         </>
-    ) 
+    )
 }
 
 const styles = StyleSheet.create({
