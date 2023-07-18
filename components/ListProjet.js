@@ -15,6 +15,7 @@ const LsitProjet = ({ titre, stat, refresh }) => {
                     <Text style={styles.title}>{titre}</Text>
                     <Text style={styles.statistic}>{stat}</Text>
                 </View>
+                <Image source={require("../assets/icon.png")} style={styles.image} />
             </TouchableOpacity>
         </>
     )
