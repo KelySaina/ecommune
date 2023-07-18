@@ -1,25 +1,9 @@
+import { ListItem } from '@react-native-material/core';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
-import axios from 'axios';
-import { FlatList, Alert } from 'react-native';
 
-const Card = () => {
+const ProjectCard = ({ titre, stat, resp }) => {
 
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://192.163.43.42:5555/projets');
-        const responseData = response.data;
-        setData(responseData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
 
@@ -46,7 +30,8 @@ const Card = () => {
   return (
 
     <View>
-      <View>
+
+      {/* {<View>
         {data ? (
           <View>
             {data.map((item, index) => (
@@ -56,19 +41,24 @@ const Card = () => {
         ) : (
           <Text>Loading...</Text>
         )}
-      </View>
+      </View>} */}
 
       < TouchableOpacity style={styles.cardContainer} onPress={handleCardPress} >
         <View style={styles.card}>
           <View style={styles.header}>
             {/* <Image source={require(data["image"])} style={styles.image} /> */}
-            <Text style={[styles.title, { color: titleColor }]}>Titre de la carte</Text>
+            <Text style={[styles.title, { color: titleColor }]}>{titre}</Text>
           </View>
           {isExpanded && (
             <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
-              <Text style={styles.detailText}>Texte détaillé de la carte</Text>
+              <ListItem title='Status' secondaryText={stat} />
+              <ListItem title='Responsable' secondaryText={resp} />
+
               <TouchableOpacity style={styles.detailButton}>
-                <Text style={styles.detailButtonText}>Détail</Text>
+                <Text style={styles.detailButtonText}>Détails</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.detailButton}>
+                <Text style={styles.detailButtonText}>Marquer</Text>
               </TouchableOpacity>
             </Animated.View>
           )}
@@ -98,6 +88,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 50
   },
   image: {
     width: 80,
@@ -121,7 +112,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 8,
     alignItems: 'center',
-    marginTop: 8,
+    marginBottom: 15,
   },
   detailButtonText: {
     color: '#fff',
@@ -129,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default ProjectCard;

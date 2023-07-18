@@ -3,23 +3,16 @@ import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function BottomMenu({navigation, refresh}) {
-    const [activeButton, setActiveButton] = useState('home');
-    const [isActive, setIsActive] = useState(false);
+export default function BottomMenu({ navigation }) {
     const handleDetailPress = (buttonName) => {
-        setIsActive(true);
-        setActiveButton(buttonName);
+        navigation.navigate("AllProjects")
 
     };
     const handleHomePress = (buttonName) => {
-        setIsActive(true);
-        setActiveButton(buttonName);
         navigation.navigate("Acceuil")
-        refresh
+
     }
     const handleLogoutPress = (buttonName) => {
-        setIsActive(true);
-        setActiveButton(buttonName);
         navigation.navigate("Login")
     }
 
@@ -28,24 +21,24 @@ export default function BottomMenu({navigation, refresh}) {
             <View style={styles.menu}>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton
-                        icon={<Icon name="format-list-bulleted" style={[styles.icon, activeButton === 'dots-vertical' && styles.activeButton]} />}
+                        icon={<Icon name="format-list-bulleted" style={styles.icon} />}
                         onPress={() => handleDetailPress('dots-vertical')}
                     />
-                    <Text style={[styles.legend, activeButton === 'dots-vertical' && { color: '#49c322' }]}>Tous les projets</Text>
+                    <Text style={styles.legend}>Tous les projets</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton
-                        icon={<Icon name="home" style={[styles.icon, activeButton === 'home' && styles.activeButton]} />}
+                        icon={<Icon name="home" style={styles.icon} />}
                         onPress={() => handleHomePress('home')}
                     />
-                    <Text style={[styles.legend, activeButton === 'home' && { color: '#49c322' }]}>Home</Text>
+                    <Text style={styles.legend}>Acceuil</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <IconButton 
-                        icon={<Icon name="logout" style={[styles.icon, activeButton === 'account' && styles.activeButton]} />}
+                    <IconButton
+                        icon={<Icon name="logout" style={styles.icon} />}
                         onPress={() => handleLogoutPress('account')}
                     />
-                    <Text style={[styles.legend, activeButton === 'account' && { color: '#49c322' }]}>Logout</Text>
+                    <Text style={styles.legend}>Se deconnecter</Text>
                 </View>
             </View>
         </>

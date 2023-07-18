@@ -1,6 +1,6 @@
 import Login from "./pages/Login"
 import Acceuil from "./pages/Acceuil"
-import Card from "./components/ProjectCard"
+import AllProjects from "./pages/AllProjects"
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -20,6 +20,7 @@ const App = () => {
         }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Acceuil" component={Acceuil} />
+          <Stack.Screen name="AllProjects" component={AllProjects} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

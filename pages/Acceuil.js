@@ -1,9 +1,9 @@
 import { View } from "react-native"
-import { Text } from "@react-native-material/core"
 import BottomMenu from "../components/BottomMenu"
 import ListProjet from "../components/ListProjet"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { AppBar } from "@react-native-material/core";
 
 
 const Acceuil = ({ navigation }) => {
@@ -23,8 +23,9 @@ const Acceuil = ({ navigation }) => {
 
     return (
         <>
+            <AppBar title="Acceuil" />
 
-            <View style={{ height: '90%' }}>
+            <View style={{ height: '85%' }}>
                 {
                     projetsData.map((p, index) => (
                         <ListProjet key={index} refresh={getPro} titre={p.titre} stat={p.stat} />
