@@ -23,7 +23,7 @@ export default function BottomMenu() {
     return (
         <>
             <View>
-                <ScrollView style={{ height: 495 }}></ScrollView>
+                <ScrollView style={{ height: '90%' }}></ScrollView>
             </View>
             <View style={styles.menu}>
                 <View style={{ alignItems: 'center' }}>
