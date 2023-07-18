@@ -38,11 +38,11 @@ const Acceuil = ({ navigation }) => {
 
             <View style={{ height: '85%' }}>
 
-                <ListProjet titre={"Tous les projets"} stat={nb} s={"Tous"} />
+                <ListProjet titre={"Tous les projet"} stat={nb} s={"Tous"} navigation={navigation} />
 
                 {
                     projetsData.map((p, index) => (
-                        <ListProjet key={index} titre={p.titre} stat={p.stat} s={p.s} />
+                        <ListProjet key={index} titre={p.titre} stat={p.stat} s={p.s} navigation={navigation} />
                     ))
                 }
 

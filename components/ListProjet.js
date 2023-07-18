@@ -2,7 +2,7 @@ import { View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native"
 import { Text } from "@react-native-material/core"
 import { useEffect, useState } from "react"
 
-const ListProjet = ({ titre, stat, s }) => {
+const ListProjet = ({ titre, stat, s, navigation }) => {
     const [img, setImg] = useState(null)
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const ListProjet = ({ titre, stat, s }) => {
 
     return (
         <>
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={() => { navigation.navigate("AllProjects") }}>
                 <View style={styles.content}>
                     <Text style={styles.title}>{titre === "En cours" ? titre : titre + "s"}</Text>
                     <Text style={styles.statistic}>{stat}</Text>

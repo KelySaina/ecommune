@@ -5,7 +5,7 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function BottomMenu({ navigation, route }) {
     const handleDetailPress = (buttonName) => {
-        navigation.navigate("AllProjects",{route})
+        navigation.navigate("AllProjects", { route })
 
     };
     const handleHomePress = (buttonName) => {
@@ -24,7 +24,7 @@ export default function BottomMenu({ navigation, route }) {
                         icon={<Icon name="format-list-bulleted" style={styles.icon} />}
                         onPress={() => handleDetailPress('dots-vertical')}
                     />
-                    <Text style={styles.legend}>Tous les projets</Text>
+                    <Text style={styles.legend}>Projets</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     <IconButton

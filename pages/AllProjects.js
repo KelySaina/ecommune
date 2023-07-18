@@ -1,4 +1,4 @@
-import { Alert, ScrollView, View, Text } from "react-native"
+import { Alert, ScrollView, View, Text, TouchableOpacity } from "react-native"
 import BottomMenu from "../components/BottomMenu"
 import ProjectCard from "../components/ProjectCard"
 import { useState, useEffect } from "react"
@@ -11,6 +11,7 @@ import Modal from 'react-native-modal'
 const AllProjects = ({ navigation, route }) => {
 
     const [projetsData, setProjetsData] = useState([])
+    const [projetStatData, setProjetStatData] = useState([])
     const [nb, setNb] = useState('')
     const [openAjoutModal, setOpenAjoutModal] = useState(false)
 
@@ -23,6 +24,13 @@ const AllProjects = ({ navigation, route }) => {
         const response = await axios.get(`http://192.168.1.198:5555/allData`)
         const data = response.data
         setProjetsData(data)
+        setProjetStatData(data)
+    }
+
+    const getAllProStat = async (stat) => {
+        const response = await axios.get(`http://192.168.1.198:5555/proStatData/${stat}`)
+        const data = response.data
+        setProjetStatData(data)
     }
 
     const getNbPro = async () => {
@@ -47,16 +55,26 @@ const AllProjects = ({ navigation, route }) => {
                 </View>
 
             } />
-            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                <Text><Icon name='circle' color='blue' /> En cours</Text>
-                <Text><Icon name='circle' color='red' /> Suspendu</Text>
-                <Text><Icon name='circle' color='green' /> Termine</Text>
+            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row', margin: 10 }}>
+                <TouchableOpacity onPress={() => { getAllProStat("En cours") }} >
+                    <Text><Icon name='circle' color='blue' /> En cours</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { getAllProStat("Suspendu") }}>
+                    <Text><Icon name='circle' color='red' /> Suspendu</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { getAllProStat("Termine") }}>
+                    <Text><Icon name='circle' color='green' /> Termine</Text>
+                </TouchableOpacity>
+
+
             </View>
 
             <ScrollView style={{ height: '90%' }}>
                 {
-                    projetsData.map((p, index) => (
-                        <ProjectCard key={index} id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} navigation={navigation} />
+                    projetStatData.map((p, index) => (
+                        <ProjectCard key={index} id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} bud={p.bud} navigation={navigation} />
                     ))
                 }
 
