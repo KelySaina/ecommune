@@ -1,15 +1,15 @@
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
 import { Text } from "@react-native-material/core"
 
-const LsitProjet = () => {
+const LsitProjet = ({ nomList, stat, image }) => {
     return (
         <>
             <TouchableOpacity style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Listes des projets</Text>
-                    <Text style={styles.statistic}>10</Text>
+                    <Text style={styles.title}>{nomList}</Text>
+                    <Text style={styles.statistic}>{stat}</Text>
                 </View>
-                <Image source={require("../assets/icon.png")} style={styles.image} />
+                <Image source={require(image)} style={styles.image} />
             </TouchableOpacity>
         </>
     )

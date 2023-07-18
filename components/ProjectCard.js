@@ -1,7 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
+import axios from 'axios';
+import { FlatList, Alert } from 'react-native';
 
 const Card = () => {
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://192.163.43.42:5555/projets');
+        const responseData = response.data;
+        setData(responseData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
 
@@ -25,24 +43,38 @@ const Card = () => {
   });
 
   const titleColor = isExpanded ? '#2196F3' : '#000';
-
   return (
-    <TouchableOpacity style={styles.cardContainer} onPress={handleCardPress}>
-      <View style={styles.card}>
-        <View style={styles.header}>
-          <Image source={require('../assets/icon.png')} style={styles.image} />
-          <Text style={[styles.title, { color: titleColor }]}>Titre de la carte</Text>
-        </View>
-        {isExpanded && (
-          <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
-            <Text style={styles.detailText}>Texte détaillé de la carte</Text>
-            <TouchableOpacity style={styles.detailButton}>
-              <Text style={styles.detailButtonText}>Détail</Text>
-            </TouchableOpacity>
-          </Animated.View>
+
+    <View>
+      <View>
+        {data ? (
+          <View>
+            {data.map((item, index) => (
+              <Text key={index}>{item}</Text>
+            ))}
+          </View>
+        ) : (
+          <Text>Loading...</Text>
         )}
       </View>
-    </TouchableOpacity>
+
+      < TouchableOpacity style={styles.cardContainer} onPress={handleCardPress} >
+        <View style={styles.card}>
+          <View style={styles.header}>
+            {/* <Image source={require(data["image"])} style={styles.image} /> */}
+            <Text style={[styles.title, { color: titleColor }]}>Titre de la carte</Text>
+          </View>
+          {isExpanded && (
+            <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
+              <Text style={styles.detailText}>Texte détaillé de la carte</Text>
+              <TouchableOpacity style={styles.detailButton}>
+                <Text style={styles.detailButtonText}>Détail</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          )}
+        </View>
+      </TouchableOpacity >
+    </View>
   );
 };
 
