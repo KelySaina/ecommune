@@ -2,7 +2,7 @@ import { ListItem } from '@react-native-material/core';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
 
-const ProjectCard = ({ titre, stat, resp }) => {
+const ProjectCard = ({ ID,titre, stat, resp, navigation }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
@@ -14,6 +14,10 @@ const ProjectCard = ({ titre, stat, resp }) => {
       duration: 300,
       useNativeDriver: false,
     }).start();
+  };
+
+  const handleDetail = async () => {
+      navigation.navigate("Detail", {ID});
   };
 
   const cardScaleY = cardAnim.interpolate({
@@ -54,7 +58,7 @@ const ProjectCard = ({ titre, stat, resp }) => {
               <ListItem title='Status' secondaryText={stat} />
               <ListItem title='Responsable' secondaryText={resp} />
 
-              <TouchableOpacity style={styles.detailButton}>
+              <TouchableOpacity style={styles.detailButton} onPress={handleDetail}>
                 <Text style={styles.detailButtonText}>Détails</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.detailButton}>

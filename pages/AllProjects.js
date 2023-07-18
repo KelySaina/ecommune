@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native"
+import { ScrollView, View, Text } from "react-native"
 import BottomMenu from "../components/BottomMenu"
 import ProjectCard from "../components/ProjectCard"
 import { useState, useEffect } from "react"
@@ -6,7 +6,7 @@ import axios from "axios"
 import { AppBar } from "@react-native-material/core";
 
 
-const AllProjects = ({ navigation }) => {
+const AllProjects = ({ navigation, route }) => {
 
     const [projetsData, setProjetsData] = useState([])
     const [nb, setNb] = useState('')
@@ -35,7 +35,9 @@ const AllProjects = ({ navigation }) => {
             <ScrollView style={{ height: '90%' }}>
                 {
                     projetsData.map((p, index) => (
-                        <ProjectCard key={index} titre={p.titre} stat={p.stat} resp={p.resp} />
+                        <View>
+                        <ProjectCard key={index} ID={p.id} titre={p.titre} stat={p.stat} resp={p.resp} navigation={navigation} route={route}/>
+                        </View>
                     ))
                 }
 
