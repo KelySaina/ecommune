@@ -10,15 +10,24 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 const Acceuil = ({ navigation }) => {
 
     const [projetsData, setProjetsData] = useState([])
+    const [nb, setNb] = useState('')
+
 
     useEffect(() => {
         getPro()
+        getNbPro()
     }, [])
 
     const getPro = async () => {
-        const response = await axios.get(`http://192.168.43.224:5555/proData`)
+        const response = await axios.get(`http://192.168.1.198:5555/proData`)
         const data = response.data
         setProjetsData(data)
+    }
+
+    const getNbPro = async () => {
+        const response = await axios.get(`http://192.168.1.198:5555/nbPro`)
+        const data = response.data
+        setNb(data[0].nb)
     }
 
     return (
@@ -28,16 +37,20 @@ const Acceuil = ({ navigation }) => {
             }} />} />
 
             <View style={{ height: '85%' }}>
+
+                <ListProjet titre={"Tous les projets"} stat={nb} s={"Tous"} />
+
                 {
                     projetsData.map((p, index) => (
-                        <ListProjet key={index} refresh={getPro} titre={p.titre} stat={p.stat} />
+                        <ListProjet key={index} titre={p.titre} stat={p.stat} s={p.s} />
                     ))
                 }
 
 
+
             </View>
 
-            <BottomMenu navigation={navigation} refresh={getPro} />
+            <BottomMenu navigation={navigation} />
 
         </>
     )

@@ -21,7 +21,7 @@ const ProjectCard = ({ id, titre, stat, resp, navigation }) => {
   };
 
   const handleModifier = async (value) => {
-    const response = await axios.post(`http://192.168.43.224:5555/markPro`, {
+    const response = await axios.post(`http://192.168.1.198:5555/markPro`, {
       val: value,
       id: id
     })

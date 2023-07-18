@@ -1,21 +1,37 @@
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native"
 import { Text } from "@react-native-material/core"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-const LsitProjet = ({ titre, stat, refresh }) => {
+const ListProjet = ({ titre, stat, s }) => {
+    const [img, setImg] = useState(null)
 
     useEffect(() => {
-        refresh()
-    }, [])
+
+        const getImage = async () => {
+            let imageSource
+            if (s === "En cours") {
+                imageSource = require('../assets/images/project_en_cours.png')
+            } else if (s === "Suspendu") {
+                imageSource = require('../assets/images/projet_suspendu.png')
+            } else if (s === "Tous") {
+                imageSource = require('../assets/images/tous_les_projets.png')
+            } else {
+                imageSource = require('../assets/images/projet_termine.png')
+            }
+            setImg(imageSource)
+        }
+        getImage()
+
+    }, [stat])
 
     return (
         <>
             <TouchableOpacity style={styles.container}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>{titre}</Text>
+                    <Text style={styles.title}>{titre === "En cours" ? titre : titre + "s"}</Text>
                     <Text style={styles.statistic}>{stat}</Text>
                 </View>
-                <Image source={require("../assets/icon.png")} style={styles.image} />
+                {img && <Image source={img} style={styles.image} />}
             </TouchableOpacity>
         </>
     )
@@ -38,7 +54,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-
     },
     image: {
         width: 100,
@@ -62,4 +77,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LsitProjet
+export default ListProjet;
