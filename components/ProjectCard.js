@@ -55,7 +55,7 @@ const ProjectCard = ({ id, titre, stat, resp, navigation }) => {
           <View style={styles.card}>
             <View style={styles.header}>
 
-              <Icon name='circle' color={stat === "Suspendu" ? 'red' : stat === "Termine" ? 'green' : 'rgb(164,189,45)'} />
+              <Icon name='circle' color={stat === "Suspendu" ? 'red' : stat === "Termine" ? 'green' : 'blue'} />
 
               <Text style={[styles.id, { color: titleColor }]}>{id}</Text>
 
@@ -87,7 +87,7 @@ const ProjectCard = ({ id, titre, stat, resp, navigation }) => {
             <Icon name='times' size={30} onPress={() => { setOpenMarkModal(false) }} />
           </View>
           <View>
-            <ListItem title='En cours' leading={<Icon name='circle' color='rgb(164,189,45)' />} onPress={() => { handleModifier("En cours") }} />
+            <ListItem title='En cours' leading={<Icon name='circle' color='blue' />} onPress={() => { handleModifier("En cours") }} />
             <ListItem title='Suspendu' leading={<Icon name='circle' color='red' />} onPress={() => { handleModifier("Suspendu") }} />
             <ListItem title='Termine' leading={<Icon name='circle' color='green' />} onPress={() => { handleModifier("Termine") }} />
           </View>
