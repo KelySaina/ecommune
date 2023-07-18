@@ -3,9 +3,9 @@ import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function BottomMenu({ navigation }) {
+export default function BottomMenu({ navigation, route }) {
     const handleDetailPress = (buttonName) => {
-        navigation.navigate("AllProjects")
+        navigation.navigate("AllProjects",{route})
 
     };
     const handleHomePress = (buttonName) => {

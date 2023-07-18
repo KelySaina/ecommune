@@ -1,4 +1,4 @@
-import { Alert, ScrollView, View, Text } from "react-native"
+import { Alert, ScrollView, View, Text, Text } from "react-native"
 import BottomMenu from "../components/BottomMenu"
 import ProjectCard from "../components/ProjectCard"
 import { useState, useEffect } from "react"
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Modal from 'react-native-modal'
 
 
-const AllProjects = ({ navigation }) => {
+const AllProjects = ({ navigation, route }) => {
 
     const [projetsData, setProjetsData] = useState([])
     const [nb, setNb] = useState('')
@@ -56,9 +56,7 @@ const AllProjects = ({ navigation }) => {
             <ScrollView style={{ height: '90%' }}>
                 {
                     projetsData.map((p, index) => (
-                        <View key={index} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                            <ProjectCard id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} />
-                        </View>
+                        <ProjectCard key={index} titre={p.titre} stat={p.stat} resp={p.resp} />
                     ))
                 }
 

@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios';
 
-const ProjectCard = ({ id, titre, stat, resp }) => {
+const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
@@ -32,6 +32,9 @@ const ProjectCard = ({ id, titre, stat, resp }) => {
     Alert.alert('Info', data)
 
   }
+  const handleDetail = async () => {
+    navigation.navigate("Detail", { ID });
+  };
 
   const cardScaleY = cardAnim.interpolate({
     inputRange: [0, 1],
@@ -89,6 +92,28 @@ const ProjectCard = ({ id, titre, stat, resp }) => {
             <ListItem title='Suspendu' leading={<Icon name='circle' color='red' />} onPress={() => { handleModifier("Suspendu") }} />
             <ListItem title='Termine' leading={<Icon name='circle' color='green' />} onPress={() => { handleModifier("Termine") }} />
           </View>
+
+          < TouchableOpacity style={styles.cardContainer} onPress={handleCardPress} >
+            <View style={styles.card}>
+              <View style={styles.header}>
+                {/* <Image source={require(data["image"])} style={styles.image} /> */}
+                <Text style={[styles.title, { color: titleColor }]}>{titre}</Text>
+              </View>
+              {isExpanded && (
+                <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
+                  <ListItem title='Status' secondaryText={stat} />
+                  <ListItem title='Responsable' secondaryText={resp} />
+
+                  <TouchableOpacity style={styles.detailButton} onPress={handleDetail}>
+                    <Text style={styles.detailButtonText}>Détails</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.detailButton}>
+                    <Text style={styles.detailButtonText}>Marquer</Text>
+                  </TouchableOpacity>
+                </Animated.View>
+              )}
+            </View>
+          </TouchableOpacity>
         </View>
 
       </Modal>
