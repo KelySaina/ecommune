@@ -47,6 +47,11 @@ const AllProjects = ({ navigation }) => {
                 </View>
 
             } />
+            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row' }}>
+                <Text><Icon name='circle' color='rgb(164,189,45)' /> En cours</Text>
+                <Text><Icon name='circle' color='red' /> Suspendu</Text>
+                <Text><Icon name='circle' color='green' /> Termine</Text>
+            </View>
 
             <ScrollView style={{ height: '90%' }}>
                 {

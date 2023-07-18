@@ -46,30 +46,22 @@ const ProjectCard = ({ id, titre, stat, resp }) => {
   const titleColor = isExpanded ? '#2196F3' : '#000';
   return (
     <>
-      <View>
-
-        {/* {<View>
-        {data ? (
-          <View>
-            {data.map((item, index) => (
-              <Text key={index}>{item}</Text>
-            ))}
-          </View>
-        ) : (
-          <Text>Loading...</Text>
-        )}
-      </View>} */}
+      <View >
 
         < TouchableOpacity style={styles.cardContainer} onPress={handleCardPress} >
           <View style={styles.card}>
             <View style={styles.header}>
-              {/* <Image source={require(data["image"])} style={styles.image} /> */}
+
+              <Icon name='circle' color={stat === "Suspendu" ? 'red' : stat === "Termine" ? 'green' : 'rgb(164,189,45)'} />
+
               <Text style={[styles.id, { color: titleColor }]}>{id}</Text>
-              <Text style={[styles.title, { color: titleColor }]}>{titre}</Text>
+
+              <Text style={[styles.title, { color: titleColor, width: '75%' }]}>{titre}</Text>
             </View>
             {isExpanded && (
               <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
                 <ListItem title='Status' secondaryText={stat} />
+
                 <ListItem title='Responsable' secondaryText={resp} />
 
                 <TouchableOpacity style={styles.detailButton}>
