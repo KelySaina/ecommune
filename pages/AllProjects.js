@@ -1,4 +1,4 @@
-import { Alert, ScrollView, View, Text, Text } from "react-native"
+import { Alert, ScrollView, View, Text } from "react-native"
 import BottomMenu from "../components/BottomMenu"
 import ProjectCard from "../components/ProjectCard"
 import { useState, useEffect } from "react"
@@ -56,7 +56,7 @@ const AllProjects = ({ navigation, route }) => {
             <ScrollView style={{ height: '90%' }}>
                 {
                     projetsData.map((p, index) => (
-                        <ProjectCard key={index} titre={p.titre} stat={p.stat} resp={p.resp} />
+                        <ProjectCard key={index} id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} navigation={navigation} />
                     ))
                 }
 

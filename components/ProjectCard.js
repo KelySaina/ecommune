@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios';
 
-const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
+const ProjectCard = ({ id, titre, stat, resp, navigation }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
@@ -33,7 +33,7 @@ const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
 
   }
   const handleDetail = async () => {
-    navigation.navigate("Detail", { ID });
+    navigation.navigate("Detail", { id })
   };
 
   const cardScaleY = cardAnim.interpolate({
@@ -67,7 +67,7 @@ const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
 
                 <ListItem title='Responsable' secondaryText={resp} />
 
-                <TouchableOpacity style={styles.detailButton}>
+                <TouchableOpacity style={styles.detailButton} onPress={handleDetail}>
                   <Text style={styles.detailButtonText}>Détails</Text>
                 </TouchableOpacity>
 
@@ -84,7 +84,6 @@ const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
         <View style={{ backgroundColor: 'white', padding: 16, }}>
           <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
             <Text style={{ fontSize: 18 }} >Marquer le projet '{id}' comme:</Text>
-
             <Icon name='times' size={30} onPress={() => { setOpenMarkModal(false) }} />
           </View>
           <View>
@@ -92,28 +91,6 @@ const ProjectCard = ({ ID, titre, stat, resp, navigation }) => {
             <ListItem title='Suspendu' leading={<Icon name='circle' color='red' />} onPress={() => { handleModifier("Suspendu") }} />
             <ListItem title='Termine' leading={<Icon name='circle' color='green' />} onPress={() => { handleModifier("Termine") }} />
           </View>
-
-          < TouchableOpacity style={styles.cardContainer} onPress={handleCardPress} >
-            <View style={styles.card}>
-              <View style={styles.header}>
-                {/* <Image source={require(data["image"])} style={styles.image} /> */}
-                <Text style={[styles.title, { color: titleColor }]}>{titre}</Text>
-              </View>
-              {isExpanded && (
-                <Animated.View style={[styles.detail, { transform: [{ scaleY: cardScaleY }], opacity: detailOpacity }]}>
-                  <ListItem title='Status' secondaryText={stat} />
-                  <ListItem title='Responsable' secondaryText={resp} />
-
-                  <TouchableOpacity style={styles.detailButton} onPress={handleDetail}>
-                    <Text style={styles.detailButtonText}>Détails</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.detailButton}>
-                    <Text style={styles.detailButtonText}>Marquer</Text>
-                  </TouchableOpacity>
-                </Animated.View>
-              )}
-            </View>
-          </TouchableOpacity>
         </View>
 
       </Modal>
@@ -142,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 50
+    height: 55
   },
   image: {
     width: 80,
