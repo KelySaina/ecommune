@@ -33,7 +33,7 @@ const ProjectCard = ({ id, titre, stat, resp, bud, navigation }) => {
 
   }
   const handleDetail = async () => {
-    navigation.navigate("Detail", { id })
+    navigation.navigate("Details", { id })
   };
 
   const cardScaleY = cardAnim.interpolate({

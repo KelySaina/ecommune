@@ -1,62 +1,160 @@
-import { View, StyleSheet, Image, Button, ScrollView, Dimensions } from "react-native"
-import { Text, AppBar } from "@react-native-material/core"
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Image, Button, ScrollView, Dimensions, Alert } from "react-native"
+import { Text, AppBar, ListItem } from "@react-native-material/core"
 import BottomMenu from "../components/BottomMenu"
+import axios from 'axios';
+import { CheckBox } from 'react-native-elements';
+import { Modal } from 'react-native-modal';
 
 
 const Details = ({ navigation, route }) => {
+    const [detailInfo, setDetailInfo] = useState({
+        Objectif: '',
+        Etapes: '',
+        titre: '',
+        Responsable: '',
+        Budget: ''
+    });
+    const [stepData, setStepData] = useState([]);
+    const [stepStates, setStepStates] = useState([]);
 
+
+
+    const forceUpdate = () => {
+        setStepData([...stepData]);
+    };
     const par = route.params?.id || 'Aucun paramètre trouvé';
+    const getDetai = async () => {
+        try {
+            const response = await axios.get(`http://192.168.1.198:5555/getAllPro/${par}`);
+            const obj = response.data[0].Objectif;
+            const step = response.data[0].Etapes;
+            const t = response.data[0].Nom_Projet;
+            const resp = response.data[0].Responsable;
+            const budg = response.data[0].Budget;
+            setDetailInfo({ Objectif: obj, Etapes: step, titre: t, Responsable: resp, Budget: budg });
+        } catch (error) {
+            console.error("Error getting details", error);
+        }
+    }
+    // const changeCheck = async () => {
+    //     try {
+    //         const response = await axios.put(`http://192.168.1.198:5555/getAllPro/${par}`);
+    //         const obj = response.data[0].Objectif;
+    //         const step = response.data[0].Etapes;
+    //         const t = response.data[0].Nom_Projet;
+    //         const resp = response.data[0].Responsable;
+    //         const budg = response.data[0].Budget;
+    //         setDetailInfo({ Objectif: obj, Etapes: step, titre: t, Responsable: resp, Budget: budg });
+    //     } catch (error) {
+    //         console.error("Error getting details", error);
+    //     }
+    // }
+    const getStep = async () => {
+        try {
+            const response = await axios.get(`http://192.168.1.198:5555/getStep/${par}`);
+            setStepData(response.data)
+        } catch (error) {
+            console.error("Error getting details", error);
+        }
+    };
+
+    useEffect(() => {
+        getDetai();
+        getStep()
+
+    }, [detailInfo])
+    const [isChecked, setChecked] = useState(false);
+
+    const handleToggle = async (index) => {
+        const newStepData = [...stepData];
+        const updatedStep = newStepData[index];
+        updatedStep.EtatStep = updatedStep.EtatStep === 1 ? 0 : 1;
+        setStepData(newStepData);
+
+        try {
+            // Faites la requête PUT avec les nouvelles données mises à jour
+            console.log(par + updatedStep.EtatStep);
+            await axios.post(`http://192.168.1.198:5555/putStep`, {
+                updatedStep: updatedStep.EtatStep,
+                projetId: `${par}`,
+                idE: updatedStep.Id_Etape
+            });
+        } catch (error) {
+            console.error("Error updating step", error);
+        }
+    };
+
+    const [addStepMod, setAddStepMod] = useState(false)
+
+    const addStep = async () => {
+    }
     return (
         <>
             <AppBar title={"Details du projet: " + par} color="#111476" height={50} />
 
-            <View>
-                <Image
-                    source={require('../assets/images/th.png')}
-                    style={styles.image}
-                />
+            <View style={styles.header}>
+
+
+                <Text style={[styles.title2, { color: '#2196F3' }]}>{detailInfo.titre}</Text>
             </View>
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.section}>
                         <Text style={styles.title}> PLAN </Text>
-                        <Text style={styles.sousTitle}>Objectifs</Text>
-                        <View style={styles.SousSection}>
-                            <Text style={styles.contenuSoustitre}> voici l'objectif </Text>
-                        </View>
-                        <Text style={styles.sousTitle}>Ressources</Text>
-                        <View style={styles.SousSection}>
-                            <Text style={styles.contenuSoustitre}> voici les ressources </Text>
-                        </View>
-                        <Text style={styles.sousTitle}>Etapes</Text>
-                        <View style={styles.SousSection}>
-                            <Text style={styles.contenuSoustitre}> voici les étapes </Text>
-                        </View>
-                        <Text style={styles.sousTitle}>Responsables</Text>
-                        <View style={styles.SousSection}>
-                            <Text style={styles.contenuSoustitre}> voici les responsables </Text>
-                        </View>
-                        <Text style={styles.sousTitle}>Etapes</Text>
-                        <View style={styles.SousSection}>
-                            <Text style={styles.contenuSoustitre}> voici les étapes </Text>
-                        </View>
+                        <ListItem title='OBJECTIF' secondaryText={detailInfo.Objectif} />
+                        <ListItem title='RESPONSABLE' secondaryText={detailInfo.Responsable} />
+                        <ListItem title='RESSOURCES' secondaryText='ressource' />
 
                     </View>
                     <View style={styles.section}>
                         <Text style={styles.title}> MISE EN OEUVRE </Text>
-                        <Text style={styles.contenuSoustitre}>
-                            voici le mise en OEUVRE
-                        </Text>
+                        <ListItem title='BUDGET' secondaryText={detailInfo.Budget + ' Ar'} />
+                        <ListItem title={(
+                            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <Text>ETAPES</Text>
+                            </View>
+                        )} secondaryText={
+                            <View>
+                                {stepData.map((t, i) => (
+                                    <View key={i}>
+                                        <Text style={{ fontWeight: 'bold' }}>{t.Nom_Etape}</Text>
+                                        <Text>{t.Description.split(':').join('\n')}</Text>
+                                    </View>
+                                ))}
+                            </View>}
+                            onLongPress={() => { setAddStepMod(true) }}
+                        />
                     </View>
                     <View style={styles.section}>
                         <Text style={styles.title}> EVALUATION </Text>
-                        <Text style={styles.contenuSoustitre}>
-                            voici l'évaluation
-                        </Text>
+                        <View >
+                            {stepData.map((item, index) => (
+                                <View key={index} style={{ margin: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                                    <Text>{item.Nom_Etape}</Text>
+                                    <CheckBox
+                                        value={item.EtatStep}
+                                        checked={item.EtatStep === 1}
+                                        onPress={() => handleToggle(index)}
+                                    />
+
+                                </View>
+                            ))}
+
+                        </View>
+
+                        {/* <View style={styles.contenuSoustitre3}>
+
+                            {detailInfo.Etapes.split(':').map((t, i) => (<Text key={i} style={{ color: '#2196F3' }}>{t}</Text>))}
+                        </View> */}
                     </View>
                 </View>
             </ScrollView>
+            <Modal>
+
+            </Modal>
             <BottomMenu navigation={navigation} />
+
         </>
     )
 
@@ -67,11 +165,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
     },
-    image: {
-        marginTop: 20,
-        alignSelf: "flex-start",
-        width: '100%',
-        height: 200
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    title2: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     space: {
         width: 20,
@@ -82,16 +185,15 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     title: {
-        textAlign: 'center',
         fontSize: 24,
         fontWeight: 'bold',
         color: '#1D8320',
         marginTop: 10,
         padding: 5,
         borderBottomColor: '#1D8320',
-        borderBottomWidth: 1,
-        borderTopColor: '#1D8320',
-        borderTopWidth: 1,
+        borderBottomWidth: 4,
+        borderLeftColor: '#1D8320',
+        borderLeftWidth: 10
     },
     sousTitle: {
         alignSelf: 'flex-start',
@@ -105,6 +207,19 @@ const styles = StyleSheet.create({
     contenuSoustitre: {
         fontSize: 16,
         marginTop: 10,
+    },
+    contenuSoustitre2: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    },
+    contenuSoustitre3: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        color: '#2196F3'
     }
 });
 
