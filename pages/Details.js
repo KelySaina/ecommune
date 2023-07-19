@@ -22,6 +22,8 @@ const Details = ({ navigation, route }) => {
     const [nomEtape, setNomEtape] = useState('');
     const [descEtape, setDescEtape] = useState('');
 
+    const [dateDebut, setDateDebut] = useState(null);
+    const [showDateDebutPicker, setShowDateDebutPicker] = useState(false);
 
 
     const forceUpdate = () => {
@@ -112,6 +114,57 @@ const Details = ({ navigation, route }) => {
 
     }
 
+    const [modObj, setModObj] = useState(false)
+    const [newObj, setNewObj] = useState('')
+
+    const validerModObj = async () => {
+        const response = await axios.post(`http://192.168.1.198:5555/modObj`, {
+            newO: newObj,
+            id: par
+        })
+        const data = response.data
+
+        setModObj(false)
+        getDetai();
+        getStep();
+        getNbStep();
+
+        Alert.alert("Info", data)
+
+    }
+
+    const [modResp, setModResp] = useState(false)
+    const [newResp, setNewResp] = useState('')
+
+    const validerModResp = async () => {
+        const response = await axios.post(`http://192.168.1.198:5555/modResp`, {
+            newR: newResp,
+            id: par
+        })
+        const data = response.data
+        setModResp(false)
+        getDetai();
+        getStep();
+        getNbStep();
+        Alert.alert("Info", data)
+    }
+
+    const [modDate, setModDate] = useState(false)
+    const [newDate, setNewDate] = useState('')
+
+    const validerModDate = async () => {
+        const response = await axios.post(`http://192.168.1.198:5555/modDate`, {
+            newD: newDate,
+            id: par
+        })
+        const data = response.data
+        setModDate(false)
+        getDetai();
+        getStep();
+        getNbStep();
+        Alert.alert("Info", data)
+    };
+
     return (
         <>
             <View>
@@ -127,9 +180,9 @@ const Details = ({ navigation, route }) => {
                         <View style={styles.container}>
                             <View style={styles.section}>
                                 <Text style={styles.title}> A PROPOS </Text>
-                                <ListItem title='OBJECTIF' secondaryText={detailInfo.Objectif} />
-                                <ListItem title='RESPONSABLE' secondaryText={detailInfo.Responsable} />
-                                <ListItem title='DATE DE DEBUT' secondaryText={detailInfo.DateDeb} />
+                                <ListItem title='OBJECTIF' secondaryText={detailInfo.Objectif} onLongPress={() => { setModObj(true) }} />
+                                <ListItem title='RESPONSABLE' secondaryText={detailInfo.Responsable} onLongPress={() => { setModResp(true) }} />
+                                <ListItem title='DATE DE DEBUT' secondaryText={detailInfo.DateDeb} onLongPress={() => { setModDate(true) }} />
 
                             </View>
                             <View style={styles.section}>
@@ -203,6 +256,81 @@ const Details = ({ navigation, route }) => {
 
                                 <TouchableOpacity onPress={addEtape} style={styles.button}>
                                     <Text style={styles.buttonText}>Ajouter l'etape</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+                        </View>
+                    </Modal>
+                    <Modal isVisible={modObj}>
+                        <View style={{ backgroundColor: 'white', padding: 16 }}>
+                            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Modifier l'Objectif</Text>
+                                <Icon name='times' size={30} onPress={() => { setModObj(false) }} />
+                            </View>
+                            <View>
+                                <Text style={{ fontWeight: "bold" }}>Nouvel objectif</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="ex: Amelioration de qualite de vie"
+                                    value={newObj}
+                                    onChangeText={text => setNewObj(text)}
+                                />
+
+
+                                <TouchableOpacity onPress={validerModObj} style={styles.button}>
+                                    <Text style={styles.buttonText}>Valider</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+                        </View>
+                    </Modal>
+
+                    <Modal isVisible={modResp}>
+                        <View style={{ backgroundColor: 'white', padding: 16 }}>
+                            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Modifier le Responsable</Text>
+                                <Icon name='times' size={30} onPress={() => { setModResp(false) }} />
+                            </View>
+                            <View>
+                                <Text style={{ fontWeight: "bold" }}>Nouveau responsable</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="ex: Amelioration de qualite de vie"
+                                    value={newResp}
+                                    onChangeText={text => setNewResp(text)}
+                                />
+
+
+                                <TouchableOpacity onPress={validerModResp} style={styles.button}>
+                                    <Text style={styles.buttonText}>Valider</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+                        </View>
+                    </Modal>
+
+
+                    <Modal isVisible={modDate}>
+                        <View style={{ backgroundColor: 'white', padding: 16 }}>
+                            <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Modifier la Date de debut</Text>
+                                <Icon name='times' size={30} onPress={() => { setModDate(false) }} />
+                            </View>
+                            <View>
+                                <Text style={{ fontWeight: "bold" }}>Nouvelle Date de debut</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="ex: YYYY-MM-DD"
+                                    value={newDate}
+                                    onChangeText={text => setNewDate(text)}
+                                />
+
+
+                                <TouchableOpacity onPress={validerModDate} style={styles.button}>
+                                    <Text style={styles.buttonText}>Valider</Text>
                                 </TouchableOpacity>
 
 

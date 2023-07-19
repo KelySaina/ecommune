@@ -79,7 +79,7 @@ const Login = ({ navigation }) => {
           },
         ]}
       >
-        Email
+        Utilisateur
       </Animated.Text>
     );
   };
@@ -119,7 +119,7 @@ const Login = ({ navigation }) => {
         {renderEmailPlaceholder()}
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Utilisateur"
           onChangeText={handleEmailChange}
           value={email}
         />
