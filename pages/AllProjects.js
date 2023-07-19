@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Alert } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BottomMenu from "../components/BottomMenu";
 import ProjectCard from "../components/ProjectCard";
@@ -83,6 +83,17 @@ const AllProjects = ({ navigation, route }) => {
         setShowDateDebutPicker(false);
     };
 
+    const [openSearchModal, setOpenSearchModal] = useState(false)
+
+    const [key, setKey] = useState('')
+
+    const validerSearch = async () => {
+        const response = await axios.get(`http://192.168.1.198:5555/searchKey/${key}`);
+        const data = response.data;
+        setProjetStatData(data);
+        setOpenSearchModal(false)
+    };
+
 
     const styles = StyleSheet.create({
         input: {
@@ -118,6 +129,9 @@ const AllProjects = ({ navigation, route }) => {
                 height={70}
                 trailing={
                     <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}>
+                        <Icon name='search' size={30} style={{ margin: 10 }} color='white' onPress={() => {
+                            setOpenSearchModal(true)
+                        }} />
                         <Icon name='plus' size={30} style={{ margin: 10 }} color='white' onPress={() => {
                             setOpenAjoutModal(true)
                         }} />
@@ -147,11 +161,30 @@ const AllProjects = ({ navigation, route }) => {
             <ScrollView style={{ height: '90%' }}>
                 {
                     projetStatData.map((p, index) => (
-                        <ProjectCard key={index} id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} bud={p.bud} navigation={navigation} />
+                        <ProjectCard key={index} id={p.id} titre={p.titre} stat={p.stat} resp={p.resp} d={p.d} navigation={navigation} />
                     ))
                 }
             </ScrollView>
+            <Modal isVisible={openSearchModal}>
+                <View style={{ backgroundColor: 'white', padding: 16 }}>
+                    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Rechercher un projet</Text>
 
+                        <Icon name='times' size={30} onPress={() => { setOpenSearchModal(false) }} />
+                    </View>
+                    <Text style={{ fontWeight: "bold" }}>Rechercher</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="ex: ID Projet, Nom Projet, Responsable, Date de debut"
+                        value={key}
+                        onChangeText={text => setKey(text)}
+                    />
+
+                    <TouchableOpacity onPress={validerSearch} style={styles.button}>
+                        <Text style={styles.buttonText}>Valider</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
             <Modal isVisible={openAjoutModal}>
                 <View style={{ backgroundColor: 'white', padding: 16 }}>
                     <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>

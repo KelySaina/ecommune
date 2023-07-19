@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios';
 
-const ProjectCard = ({ id, titre, stat, resp, bud, navigation }) => {
+const ProjectCard = ({ id, titre, stat, resp, d, navigation }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [cardAnim] = useState(new Animated.Value(0));
@@ -67,7 +67,7 @@ const ProjectCard = ({ id, titre, stat, resp, bud, navigation }) => {
 
                 <ListItem title='Responsable' secondaryText={resp} />
 
-                <ListItem title='Budget' secondaryText={bud + " Ar"} />
+                <ListItem title='Date de Debut' secondaryText={d} />
 
                 <TouchableOpacity style={styles.detailButton} onPress={handleDetail}>
                   <Text style={styles.detailButtonText}>Détails</Text>
