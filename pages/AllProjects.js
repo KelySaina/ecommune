@@ -19,6 +19,7 @@ const AllProjects = ({ navigation, route }) => {
 
     // États pour stocker les valeurs des champs de texte et de date
     const [nomProjet, setNomProjet] = useState('');
+    const [objProjet, setObjProjet] = useState('');
     const [responsable, setResponsable] = useState('');
     const [dateDebut, setDateDebut] = useState(null);
     const [budget, setbudget] = useState('');
@@ -67,6 +68,7 @@ const AllProjects = ({ navigation, route }) => {
                 resp: responsable,
                 dateDeb: dateDebut.toISOString().split('T')[0],
                 budg: budget,
+                obj: objProjet
             });
             closeModal();
         }
@@ -79,6 +81,7 @@ const AllProjects = ({ navigation, route }) => {
         setResponsable('');
         setDateDebut(null);
         setbudget(null);
+        setObjProjet(null)
         // Réinitialiser l'affichage du sélecteur de date
         setShowDateDebutPicker(false);
     };
@@ -200,6 +203,13 @@ const AllProjects = ({ navigation, route }) => {
                             placeholder="ex: Construction de route..."
                             value={nomProjet}
                             onChangeText={text => setNomProjet(text)}
+                        />
+                        <Text style={{ fontWeight: "bold" }}>Objectif</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="ex: Ameliorer le rendement"
+                            value={objProjet}
+                            onChangeText={text => setObjProjet(text)}
                         />
                         <Text style={{ fontWeight: "bold" }}>Responsable</Text>
                         <TextInput
