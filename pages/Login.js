@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
   const handleLogin = async () => {
     // Implémentez votre logique de connexion ici
 
-    const response = await axios.post('http://192.168.43.224:5555/signin', {
+    const response = await axios.post('http://192.168.1.198:5555/signin', {
       nom: email,
       mdp: password,
     });

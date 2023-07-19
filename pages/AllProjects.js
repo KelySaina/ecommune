@@ -20,13 +20,13 @@ const AllProjects = ({ navigation, route }) => {
     }, [])
 
     const getAllPro = async () => {
-        const response = await axios.get(`http://192.168.43.224:5555/allData`)
+        const response = await axios.get(`http://192.168.1.198:5555/allData`)
         const data = response.data
         setProjetsData(data)
     }
 
     const getNbPro = async () => {
-        const response = await axios.get(`http://192.168.43.224:5555/nbPro`)
+        const response = await axios.get(`http://192.168.1.198:5555/nbPro`)
         const data = response.data
         setNb(data[0].nb)
     }
