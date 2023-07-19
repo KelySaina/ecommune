@@ -14,7 +14,8 @@ const Details = ({ navigation, route }) => {
         Etapes: '',
         titre: '',
         Responsable: '',
-        Budget: ''
+        Budget: '',
+        DateDeb: '',
     });
     const [stepData, setStepData] = useState([]);
     const [stepStates, setStepStates] = useState([]);
@@ -35,7 +36,8 @@ const Details = ({ navigation, route }) => {
             const t = response.data[0].Nom_Projet;
             const resp = response.data[0].Responsable;
             const budg = response.data[0].Budget;
-            setDetailInfo({ Objectif: obj, Etapes: step, titre: t, Responsable: resp, Budget: budg });
+            const dateD = response.data[0].Date_Debut;
+            setDetailInfo({ Objectif: obj, Etapes: step, titre: t, Responsable: resp, Budget: budg, DateDeb: dateD });
         } catch (error) {
             console.error("Error getting details", error);
         }
@@ -124,10 +126,10 @@ const Details = ({ navigation, route }) => {
                     <ScrollView  >
                         <View style={styles.container}>
                             <View style={styles.section}>
-                                <Text style={styles.title}> PLAN </Text>
+                                <Text style={styles.title}> A PROPOS </Text>
                                 <ListItem title='OBJECTIF' secondaryText={detailInfo.Objectif} />
                                 <ListItem title='RESPONSABLE' secondaryText={detailInfo.Responsable} />
-                                <ListItem title='RESSOURCES' secondaryText='ressource' />
+                                <ListItem title='DATE DE DEBUT' secondaryText={detailInfo.DateDeb} />
 
                             </View>
                             <View style={styles.section}>
